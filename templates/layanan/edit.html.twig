@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Layanan{% endblock %}
+
+{% block body %}
+    <h1>Edit Layanan</h1>
+
+    {{ include('layanan/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('layanan_index') }}">back to list</a>
+
+    {{ include('layanan/_delete_form.html.twig') }}
+{% endblock %}

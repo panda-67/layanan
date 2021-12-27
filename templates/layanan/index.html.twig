@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Layanan index
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h3>Layanan index</h3>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Slug</th>
+					<th>Description</th>
+					<th>Image</th>
+					<th>Price</th>
+					<th>Created</th>
+					<th>Updated</th>
+					{# <th>ContentChanged</th> #}
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for layanan in layanans %}
+					<tr>
+						<td>{{ layanan.id }}</td>
+						<td>{{ layanan.name }}</td>
+						<td>{{ layanan.slug }}</td>
+						<td>{{ layanan.description|raw }}</td>
+						<td>{{ layanan.image }}</td>
+						<td>{{ layanan.price }}</td>
+						<td>{{ layanan.created ? layanan.created|date('Y-m-d', 'Asia/Bangkok') : '' }}</td>
+						<td>{{ layanan.updated ? layanan.updated|date('Y-m-d H:i:s \\a\\t g:i a', 'Asia/Bangkok') : '' }}</td>
+						{# <td>{{ layanan.contentChanged ? layanan.contentChanged|date('Y-m-d H:i:s') : '' }}</td> #}
+						<td>
+							<a href="{{ path('layanan_show', {'slug': layanan.slug}) }}">show</a>
+							<a href="{{ path('layanan_edit', {'id': layanan.id}) }}">edit</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="10">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a href="{{ path('layanan_new') }}">Create new</a>
+	</div>
+{% endblock %}
