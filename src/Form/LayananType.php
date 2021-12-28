@@ -31,7 +31,7 @@ class LayananType extends AbstractType
                 'help' => 'Image max 500kb'
             ])
             ->add('price', MoneyType::class, [
-                'required' => false,
+                'required' => true,
                 'divisor' => 1,
                 'grouping' => true,                
                 'currency' => 'IDR',
