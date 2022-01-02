@@ -1,4 +1,34 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="py-1 px-4">
+	{{ form_start(form) }}
+	<div class="mb-6">
+		{{ form_row(form.name) }}
+		{{ form_row(form.category) }}
+		{{ form_row(form.description) }}
+		{{ form_label(form.image) }}
+		<div class="mb-3 d-flex flex-column-reverse">
+			{{ form_widget(form.image, {attr: {	'onchange': 'previewImage()' }}) }}
+			<img {% if form.vars.data.image %} src="{{ asset('img/' ~ form.vars.data.image) }}" {% endif %} class="img-preview mb-2 card-img" style="max-width: 400px">
+		</div>
+		{{ form_row(form.price) }}
+	</div>
+	<div>
+		<button class="btn btn-sm btn-outline-success">{{ button_label|default('Save') }}</button>
+		<a href="{{ path('layanan_index') }}" class="btn btn-sm btn-outline-info text-capitalize">back to list</a>
+	</div>
+	{{ form_end(form) }}
+</div>
+<script>
+	function previewImage() {
+const image = document.querySelector('#layanan_image');
+const imgPreview = document.querySelector('.img-preview');
+
+imgPreview.style.display = 'block';
+
+const oFReader = new FileReader();
+oFReader.readAsDataURL(image.files[0]);
+
+oFReader.onload = function (oFReader) {
+imgPreview.src = oFReader.target.result;
+}
+}
+</script>

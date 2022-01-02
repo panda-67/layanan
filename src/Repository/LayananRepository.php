@@ -19,9 +19,35 @@ class LayananRepository extends ServiceEntityRepository
         parent::__construct($registry, Layanan::class);
     }
 
-    // /**
-    //  * @return Layanan[] Returns an array of Layanan objects
-    //  */
+    public function Layanans()
+    {
+        return $this->findAll();
+    }
+
+    public function Statistic()
+    {
+        return $this->findBy(['category' => 'Statistic']);
+    }
+
+    public function Mapping()
+    {
+        return $this->findBy(['category' => 'Mapping']);
+    }
+
+    public function search($search_query)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.name LIKE :searchTerm')
+            ->orWhere('l.legory LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $search_query . '%')
+            ->orderBy('l.id', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @return Layanan[] Returns an array of Layanan objects
+     */
     /*
     public function findByExampleField($value)
     {
@@ -34,7 +60,7 @@ class LayananRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Layanan

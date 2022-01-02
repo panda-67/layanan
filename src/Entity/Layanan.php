@@ -56,6 +56,9 @@ class Layanan
     #[Gedmo\Timestampable(on: 'change', field: ['name', 'description'])]
     private $contentChanged;
 
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +156,18 @@ class Layanan
     public function setContentChanged(?\DateTimeInterface $contentChanged): self
     {
         $this->contentChanged = $contentChanged;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

@@ -19,5 +19,9 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^31.1.0",
+        "tinymce": "^5"
     }
 }

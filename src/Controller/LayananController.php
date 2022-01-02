@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Layanan;
 use App\Form\LayananType;
+use App\Form\SearchType;
 use App\Repository\LayananRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -13,17 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-// #[Route('/layanan')]
+#[Route('/layanan')]
 class LayananController extends AbstractController
 {
     #[Route('/', name: 'layanan_index', methods: ['GET'])]
     public function index(LayananRepository $layananRepository): Response
-    {
-        return $this->render('layanan/index.html.twig', [
-            'layanans' => $layananRepository->findAll(),
+    {                
+        return $this->renderForm('layanan/index.html.twig', [
+            'title' => 'Layanan',
+            'layanans' => $layananRepository->Layanans(),
+            'statistic' => $layananRepository->Statistic(),
+            'mapping' => $layananRepository->Mapping(),
         ]);
     }
-
+    
     #[Route('/new', name: 'layanan_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -32,6 +36,7 @@ class LayananController extends AbstractController
         $form->handleRequest($request);
         $slugName = $form->get('name')->getData();
         $lslug = str_replace(' ', '-', strtolower($slugName));
+
         $file = $form->get('image')->getData();
         if ($form->isSubmitted() && $form->isValid()) {
             if ($file) {
@@ -79,7 +84,7 @@ class LayananController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($file) {
                 $fname = $layanan->getImage();
-                $fs->remove($this->getParameter('public_dir').'/img/'.$fname);
+                $fs->remove($this->getParameter('public_dir') . '/img/' . $fname);
                 $newFilename = $lslug . '-' . uniqid() . '.' . $file->guessExtension();
                 try {
                     $file->move(
@@ -108,7 +113,7 @@ class LayananController extends AbstractController
         $fs = new Filesystem();
         if ($layanan->getImage()) {
             $fname = $layanan->getImage();
-            $fs->remove($this->getParameter('public_dir').'/img/'.$fname);
+            $fs->remove($this->getParameter('public_dir') . '/img/' . $fname);
         }
         if ($this->isCsrfTokenValid('delete' . $layanan->getId(), $request->request->get('_token'))) {
             $entityManager->remove($layanan);

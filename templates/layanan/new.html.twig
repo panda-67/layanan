@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Layanan{% endblock %}
+{% block title %}New Layanan
+{% endblock %}
 
 {% block body %}
-    <h4>Create new Layanan</h4>
-
-    {{ include('layanan/_form.html.twig') }}
-
-    <a href="{{ path('layanan_index') }}">back to list</a>
+	<div class="container form-control py-3 my-2">
+		<h4 class=" d-flex justify-content-center">Create new Layanan</h4>
+		{{ include('layanan/_form.html.twig') }}
+	</div>
 {% endblock %}

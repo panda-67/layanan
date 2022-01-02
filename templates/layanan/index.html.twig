@@ -1,52 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Layanan index
+{% block title %}
+	{{ title }}
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<h3>Layanan index</h3>
-
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Slug</th>
-					<th>Description</th>
-					<th>Image</th>
-					<th>Price</th>
-					<th>Created</th>
-					<th>Updated</th>
-					{# <th>ContentChanged</th> #}
-					<th>actions</th>
-				</tr>
-			</thead>
-			<tbody>
+	<div class="d-flex justify-content-center gap-3">
+		<div class="col-8">
+			<div class="mb-4">
+				<div>
+					<h3>Layanan Statistic</h3>
+				</div>
+				<div class="row row-cols-2 row-cols-md-3 g-3">
+					{% for layanan in statistic %}
+						<div class="col">
+							<div class="card h-100">
+								<a href="{{ path('layanan_show', {'slug': layanan.slug}) }}"><img src="{{ asset('img/' ~ layanan.image) }}" class="card-img-top" alt="{{ layanan.name }}"></a>
+								<div class="card-body">
+									<a href="{{ path('layanan_show', {'slug': layanan.slug}) }}">
+										<h5 class="card-title">{{ layanan.name }}</h5>
+									</a>
+									<p class="card-text">{{ layanan.description|u.truncate(150, '...')|raw }}</p>
+								</div>
+								<div class="card-footer">
+									{% if layanan.updated %}
+										<small class="text-muted">{{ layanan.updated ? layanan.updated|date('j m Y \\a\\t g:i a', 'Asia/Bangkok') : '' }}</small>
+									{% else %}
+										<small class="text-muted">{{ layanan.created ? layanan.created|date('d F Y', 'Asia/Bangkok') : '' }}</small>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					{% else %}
+						<p>Layanan Not Found</p>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="mb-4">
+				<div>
+					<h3>Layanan Mapping</h3>
+				</div>
+				<div class="row row-cols-2 row-cols-md-3 g-3">
+					{% for layanan in mapping %}
+						<div class="col">
+							<div class="card h-100">
+								<a href="{{ path('layanan_show', {'slug': layanan.slug}) }}"><img src="{{ asset('img/' ~ layanan.image) }}" class="card-img-top" alt="{{ layanan.name }}"></a>
+								<div class="card-body">
+									<a href="{{ path('layanan_show', {'slug': layanan.slug}) }}">
+										<h5 class="card-title">{{ layanan.name }}</h5>
+									</a>
+									<p class="card-text">{{ layanan.description|u.truncate(150, '...')|raw }}</p>
+								</div>
+								<div class="card-footer">
+									{% if layanan.updated %}
+										<small class="text-muted">{{ layanan.updated ? layanan.updated|date('j m Y \\a\\t g:i a', 'Asia/Bangkok') : '' }}</small>
+									{% else %}
+										<small class="text-muted">{{ layanan.created ? layanan.created|date('d F Y', 'Asia/Bangkok') : '' }}</small>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					{% else %}
+						<p>Layanan Not Found</p>
+					{% endfor %}
+				</div>
+			</div>
+			<a href="{{ path('layanan_new') }}" class="btn btn-sm btn-outline-success text-capitalize">Create new</a>
+		</div>
+		<div class="col-3 ">
+			<h4>All Layanan</h4>
+			<div class=" d-flex flex-column gap-2">
 				{% for layanan in layanans %}
-					<tr>
-						<td>{{ layanan.id }}</td>
-						<td>{{ layanan.name }}</td>
-						<td>{{ layanan.slug }}</td>
-						<td>{{ layanan.description|raw }}</td>
-						<td><img src="{{ asset('img/' ~ layanan.image) }}" class="card-img" alt=""></td>
-						<td>{{ layanan.price }}</td>
-						<td>{{ layanan.created ? layanan.created|date('Y-m-d', 'Asia/Bangkok') : '' }}</td>
-						<td>{{ layanan.updated ? layanan.updated|date('Y-m-d H:i:s \\a\\t g:i a', 'Asia/Bangkok') : '' }}</td>
-						{# <td>{{ layanan.contentChanged ? layanan.contentChanged|date('Y-m-d H:i:s') : '' }}</td> #}
-						<td>
-							<a href="{{ path('layanan_show', {'slug': layanan.slug}) }}">show</a>
-							<a href="{{ path('layanan_edit', {'id': layanan.id}) }}">edit</a>
-						</td>
-					</tr>
+					<div class="card">
+						<div class="card-body">
+							<a href="{{ path('layanan_show', {'slug': layanan.slug}) }}">
+								<h6 class="card-title">{{ layanan.name }}</h6>
+							</a>
+							<small>
+								<p>{{ layanan.category }}</p>
+							</small>
+						</div>
+					</div>
 				{% else %}
-					<tr>
-						<td colspan="10">no records found</td>
-					</tr>
+					<p>Layanan Not Found</p>
 				{% endfor %}
-			</tbody>
-		</table>
-
-		<a href="{{ path('layanan_new') }}">Create new</a>
+			</div>
+		</div>
 	</div>
 {% endblock %}
